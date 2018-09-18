@@ -4,6 +4,22 @@ class Puzzle:
         # Creates empty 4x3 2D array
         self.puzzle = [[0 for x in range(4)] for y in range(3)]
 
+    @staticmethod
+    def get_goal():
+        """
+        Returns the goal state of the 4x3 array
+        """
+        return [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 0]]
+
+    def is_puzzle_solved(self):
+        """
+        Returns whether or not the puzzle is in the goal state
+        """
+        if self.puzzle == self.get_goal:
+            return True
+        else:
+            return False
+
     def set_puzzle(self, p):
         """
         Populates a 4x3 2D array of the puzzle
@@ -26,19 +42,28 @@ class Puzzle:
 
     def get_possible_moves(self):
         """
-        Returns (x,y) coordinates of possible positions of the 0 tile
+        Returns (x,y) coordinates of possible positions for the 0 tile.
+        Ordered clockwise as the requirements state they should be
         """
         x, y = self.get_position(0)
         moves = []
 
-        if x > 0:
+        if x > 0:  # checking up
             moves.append((x - 1, y))
-        if y > 0:
-            moves.append((x, y - 1))
-        if x < 3:
-            moves.append((x + 1, y))
-        if y < 3:
+        if x > 0 and y > 0:  # checking up-right
+            moves.append((x - 1, y + 1))
+        if y < 3:  # checking right
             moves.append((x, y + 1))
+        if x < 3 and y < 3:  # checking down-right
+            moves.append((x + 1, y + 1))
+        if x < 3:  # checking down
+            moves.append((x + 1, y))
+        if x < 3 and y > 0:  # checking down-left
+            moves.append((x + 1, y - 1))
+        if y > 0:  # checking left
+            moves.append((x, y - 1))
+        if x > 0 and y > 0:  # checking up-left
+            moves.append((x - 1, y - 1))
 
         return moves
 
