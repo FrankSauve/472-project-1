@@ -50,7 +50,7 @@ class Puzzle:
 
         if x > 0:  # checking up
             moves.append((x - 1, y))
-        if x > 0 and y > 0:  # checking up-right
+        if x > 0 and y < 3:  # checking up-right
             moves.append((x - 1, y + 1))
         if y < 3:  # checking right
             moves.append((x, y + 1))
