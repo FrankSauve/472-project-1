@@ -1,7 +1,3 @@
-import sys
-import random
-
-
 class Puzzle:
 
     def __init__(self):
@@ -25,27 +21,73 @@ class Puzzle:
         """
         Displays the puzzle line by line
         """
-        for i in range(0, 3):
+        for i in range(3):
             print(self.puzzle[i])
 
+    def get_possible_moves(self):
+        """
+        Returns (x,y) coordinates of possible positions of the 0 tile
+        """
+        x, y = self.get_position(0)
+        moves = []
 
-# _________________________ Main code _________________________
+        if x > 0:
+            moves.append((x - 1, y))
+        if y > 0:
+            moves.append((x, y - 1))
+        if x < 3:
+            moves.append((x + 1, y))
+        if y < 3:
+            moves.append((x, y + 1))
 
-# Asks the user for the initial puzzle TODO: Commented to make testing faster
-# input_puzzle = input("Enter the board separated by commas: ").replace(" ", "").split(",")
-input_puzzle = "0,1,2,3,4,5,6,7,8,9,10,11".split(",")
+        return moves
 
-# Converts to int
-input_puzzle = list(map(int, input_puzzle))
+    def get_position(self, value):
+        """
+        Returns the (x,y) coordinates of the value
+        :param int value : The value of the tile (0, 11)
+        """
+        for x in range(3):
+            for y in range(4):
+                if self.puzzle[x][y] == value:
+                    return x, y
 
-# Shuffles the puzzle TODO: Remove for release
-random.shuffle(input_puzzle)
+    def get_tile_letter(self, x, y):
+        """
+        Returns the letter of the tile of the given (x,y) coordinate
+        :param int x : The index of the row
+        :param int y L The index of the col
+        """
+        letter = ""
+        if x == 0:
+            if y == 0:
+                letter = "a"
+            elif y == 1:
+                letter = "b"
+            elif y == 2:
+                letter = "c"
+            elif y == 3:
+                letter = "d"
+        elif x == 1:
+            if y == 0:
+                letter = "e"
+            elif y == 1:
+                letter = "f"
+            elif y == 2:
+                letter = "g"
+            elif y == 3:
+                letter = "h"
+        elif x == 2:
+            if y == 0:
+                letter = "i"
+            elif y == 1:
+                letter = "j"
+            elif y == 2:
+                letter = "k"
+            elif y == 3:
+                letter = "l"
 
-# Check if the inputted puzzle is of length 12
-if len(input_puzzle) != 12:
-    print("ERROR: Puzzle must have 12 tiles")
-    sys.exit(-1)
+        if letter == "":
+            raise Exception("Invalid (x,y) coordinates.")
 
-puzzle = Puzzle()
-puzzle.set_puzzle(input_puzzle)
-puzzle.print()
+        return letter
