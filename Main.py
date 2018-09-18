@@ -1,6 +1,13 @@
-import sys
 import random
+import os
 from Puzzle import Puzzle
+
+# Output files
+dfs_output = open(os.path.dirname(__file__) + "/output/puzzleDFS.txt", "w+")
+bfs_h1_output = open(os.path.dirname(__file__) + "/output/puzzleBFS-h1.txt", "w+")
+bfs_h2_output = open(os.path.dirname(__file__) + "/output/puzzleBFS-h2.txt", "w+")
+a_star_h1_output = open(os.path.dirname(__file__) + "/output/puzzleAs-h1.txt", "w+")
+a_star_h2_output = open(os.path.dirname(__file__) + "/output/puzzleAs-h2.txt", "w+")
 
 # Asks the user for the initial puzzle TODO: Commented to make testing faster
 # input_puzzle = input("Enter the board separated by commas: ").replace(" ", "").split(",")
@@ -21,5 +28,7 @@ puzzle = Puzzle()
 puzzle.set_puzzle(input_puzzle)
 puzzle.print()
 
+# Output result to txt file
+puzzle.write_to_txt(dfs_output, puzzle.get_tile_letter(1, 1), puzzle.puzzle)
+
 print('\nPossible moves: \n' + str(puzzle.get_possible_moves()))
-# print(puzzle.get_tile_letter(1, 1))

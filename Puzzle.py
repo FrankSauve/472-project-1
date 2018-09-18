@@ -3,19 +3,14 @@ class Puzzle:
     def __init__(self):
         # Creates empty 4x3 2D array
         self.puzzle = [[0 for x in range(4)] for y in range(3)]
-
-    @staticmethod
-    def get_goal():
-        """
-        Returns the goal state of the 4x3 array
-        """
-        return [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 0]]
+        self.goal = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 0]]  # Goal state of the puzzle
 
     def is_puzzle_solved(self):
         """
         Returns whether or not the puzzle is in the goal state
+        :return boolean
         """
-        if self.puzzle == self.get_goal:
+        if self.puzzle == self.goal:
             return True
         else:
             return False
@@ -35,15 +30,25 @@ class Puzzle:
 
     def print(self):
         """
-        Displays the puzzle line by line
+        Displays the puzzle line by line in the console
         """
         for i in range(3):
             print(self.puzzle[i])
+
+    def write_to_txt(self, file, letter, puzzle):
+        """
+        Write the letter and the current state of the puzzle to a txt file
+        :param file: File to write to
+        :param str letter: The letter of the tile of the current move
+        :param list puzzle: The current state of the puzzle after the move
+        """
+        file.write(letter + " " + str(puzzle) + "\n")
 
     def get_possible_moves(self):
         """
         Returns (x,y) coordinates of possible positions for the 0 tile.
         Ordered clockwise as the requirements state they should be
+        :return list moves: The list of possible moves as (x,y) coordinates
         """
         x, y = self.get_position(0)
         moves = []
@@ -71,6 +76,7 @@ class Puzzle:
         """
         Returns the (x,y) coordinates of the value
         :param int value : The value of the tile (0, 11)
+        :return int x, y: Coordinates of the value
         """
         for x in range(3):
             for y in range(4):
@@ -82,6 +88,7 @@ class Puzzle:
         Returns the letter of the tile of the given (x,y) coordinate
         :param int x : The index of the row
         :param int y L The index of the col
+        :return str letter: The letter of tile at (x,y)
         """
         letter = ""
         if x == 0:
