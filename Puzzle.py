@@ -72,6 +72,17 @@ class Puzzle:
 
         return moves
 
+    def move(self, new_x, new_y):
+        """
+        Moves the 0 to the new (x,y) coordinate
+        :param new_x: New row position of the 0
+        :param new_y: New col position of the 0
+        """
+        current_x, current_y = self.get_position(0)
+        value = self.puzzle[new_x][new_y]
+        self.puzzle[current_x][current_y] = value
+        self.puzzle[new_x][new_y] = 0
+
     def get_position(self, value):
         """
         Returns the (x,y) coordinates of the value

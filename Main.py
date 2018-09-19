@@ -1,6 +1,7 @@
 import random
 import os
 from Puzzle import Puzzle
+from DFS import DFS
 
 # Output files
 dfs_output = open(os.path.dirname(__file__) + "/output/puzzleDFS.txt", "w+")
@@ -28,7 +29,15 @@ puzzle = Puzzle()
 puzzle.set_puzzle(input_puzzle)
 puzzle.print()
 
-# Output result to txt file
-puzzle.write_to_txt(dfs_output, puzzle.get_tile_letter(1, 1), puzzle.puzzle)
 
-print('\nPossible moves: \n' + str(puzzle.get_possible_moves()))
+# Output result to txt file
+# puzzle.write_to_txt(dfs_output, puzzle.get_tile_letter(1, 1), puzzle.puzzle)
+
+# print('\nPossible moves: \n' + str(puzzle.get_possible_moves()))
+
+dfs = DFS(puzzle)
+dfs.search()
+
+dfs.puzzle.print()
+
+
