@@ -4,7 +4,7 @@ from Puzzle import Puzzle
 from DFS import DFS
 
 # Output files
-dfs_output = open(os.path.dirname(__file__) + "/output/puzzleDFS.txt", "w+")
+
 bfs_h1_output = open(os.path.dirname(__file__) + "/output/puzzleBFS-h1.txt", "w+")
 bfs_h2_output = open(os.path.dirname(__file__) + "/output/puzzleBFS-h2.txt", "w+")
 a_star_h1_output = open(os.path.dirname(__file__) + "/output/puzzleAs-h1.txt", "w+")
@@ -25,10 +25,7 @@ if len(input_puzzle) != 12:
     raise Exception("Puzzle must have 12 tiles")
 
 print('Initial puzzle state:')
-puzzle = Puzzle()
-puzzle.set_puzzle(input_puzzle)
-puzzle.print()
-
+puzzle = Puzzle(input_puzzle)
 
 # Output result to txt file
 # puzzle.write_to_txt(dfs_output, puzzle.get_tile_letter(1, 1), puzzle.puzzle)
@@ -38,6 +35,6 @@ puzzle.print()
 dfs = DFS(puzzle)
 dfs.search()
 
-dfs.puzzle.print()
+# dfs.puzzle.print()
 
 
