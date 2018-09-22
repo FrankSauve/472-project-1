@@ -2,6 +2,7 @@ import random
 import os
 from Puzzle import Puzzle
 from DFS import DFS
+from BFS import BFS
 
 # Output files
 
@@ -32,9 +33,11 @@ puzzle = Puzzle(input_puzzle)
 
 # print('\nPossible moves: \n' + str(puzzle.get_possible_moves()))
 
-dfs = DFS(puzzle)
-dfs.search()
+# dfs = DFS(puzzle)
+# dfs.search()
 
 # dfs.puzzle.print()
 
+bfs = BFS(puzzle)
+bfs.search_h1()
 
