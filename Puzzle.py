@@ -19,7 +19,8 @@ class Puzzle:
         else:
             return False
 
-    def write_to_txt(self, file, letter, puzzle):
+    @staticmethod
+    def write_to_txt(file, letter, puzzle):
         """
         Write the letter and the current state of the puzzle to a txt file
         :param file: File to write to
@@ -65,7 +66,7 @@ class Puzzle:
         :param new_y: New col position of the 0
         :return list new_puzzle: 2D array of the puzzle after the move
         """
-        new_puzzle = puzzle
+        new_puzzle = list(puzzle)
         current_pos = puzzle.index(0)
         value = puzzle[new_pos]
         new_puzzle[current_pos] = value

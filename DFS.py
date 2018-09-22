@@ -11,13 +11,19 @@ class DFS:
 
     def search(self):
         # While open is not empty
-        while len(self.open) != 0:
+        # while len(self.open) != 0:
+        i = 0
+        while i < 15:
             # Remove leftmost state from open
-            a = self.open.pop(0)
+            a = self.open[0]
+            self.open.remove(a)
+            self.closed.append(a)
 
+            print(a)
             if not Puzzle.is_puzzle_solved(a):
                 # Generate children of a
                 possible_moves = Puzzle.get_possible_moves(a)
+                print("Closed before: " + str(self.closed))
 
                 children = []
                 for move in possible_moves:
@@ -25,9 +31,7 @@ class DFS:
                     children.append(list(child))
 
                 print("children: " + str(children))
-
                 # Put a on closed list
-                self.closed.append(a)
 
                 # Discard children of a if already in open or closed
 
@@ -47,13 +51,13 @@ class DFS:
                 print("children after remove" + str(children))
 
                 # Put remaining children on left end of open
-                self.open = self.open + children
+                self.open = children + self.open
 
                 print("OPEN: " + str(self.open))
                 print("CLOSED: " + str(self.closed))
-                print("a: " + str(a))
                 print("\n")
-                # letter_x, letter_y = self.puzzle.get_position(0)
-                # self.puzzle.write_to_txt(dfs_output, self.puzzle.get_tile_letter(letter_x, letter_y), self.puzzle.puzzle)
+                i = i + 1
+                pos = a.index(0)
+                Puzzle.write_to_txt(dfs_output, Puzzle.get_tile_letter(pos), a)
             else:
-                return self.puzzle
+                return
