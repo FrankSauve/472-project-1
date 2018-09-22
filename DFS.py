@@ -20,17 +20,18 @@ class DFS:
             self.closed.append(a)
 
             print(a)
+            print("Step " + str(len(self.closed)-1))
             if not Puzzle.is_puzzle_solved(a):
                 # Generate children of a
                 possible_moves = Puzzle.get_possible_moves(a)
-                print("Closed before: " + str(self.closed))
+                print("Closed before: \t\t\t" + str(self.closed))
 
                 children = []
                 for move in possible_moves:
                     child = Puzzle.temp_move(move, a)
                     children.append(list(child))
 
-                print("children: " + str(children))
+                print("children: \t\t\t\t" + str(children))
                 # Put a on closed list
 
                 # Discard children of a if already in open or closed
@@ -48,13 +49,13 @@ class DFS:
                             break
 
 
-                print("children after remove" + str(children))
+                print("children after remove \t" + str(children))
 
                 # Put remaining children on left end of open
                 self.open = children + self.open
 
-                print("OPEN: " + str(self.open))
-                print("CLOSED: " + str(self.closed))
+                print("OPEN: \t\t\t\t\t" + str(self.open))
+                print("CLOSED: \t\t\t\t" + str(self.closed))
                 print("\n")
                 i = i + 1
                 pos = a.index(0)
