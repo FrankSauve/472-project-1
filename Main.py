@@ -1,10 +1,8 @@
-import random
 import os
 from Puzzle import Puzzle
 from DFS import DFS
 
-# Output files
-
+# Output files TODO: These paths will go in the respecting classes
 bfs_h1_output = open(os.path.dirname(__file__) + "/output/puzzleBFS-h1.txt", "w+")
 bfs_h2_output = open(os.path.dirname(__file__) + "/output/puzzleBFS-h2.txt", "w+")
 a_star_h1_output = open(os.path.dirname(__file__) + "/output/puzzleAs-h1.txt", "w+")
@@ -14,27 +12,28 @@ a_star_h2_output = open(os.path.dirname(__file__) + "/output/puzzleAs-h2.txt", "
 # input_puzzle = input("Enter the board separated by commas: ").replace(" ", "").split(",")
 input_puzzle = "1,0,3,7,5,2,6,4,9,10,11,8".split(",")  # TODO: Remove for release
 
+option = input("Which algorithm do you ant to use? (1,2,3)\n1. DFS \n2. BFS \n3. A*\n")
+
 # Converts to int
 input_puzzle = list(map(int, input_puzzle))
-
-# Shuffles the puzzle TODO: Remove for release
-# random.shuffle(input_puzzle)
 
 # Check if the input_puzzle is of length 12
 if len(input_puzzle) != 12:
     raise Exception("Puzzle must have 12 tiles")
 
-print('Initial puzzle state:')
 puzzle = Puzzle(input_puzzle)
 
-# Output result to txt file
-# puzzle.write_to_txt(dfs_output, puzzle.get_tile_letter(1, 1), puzzle.puzzle)
+if option == "1":
+    dfs = DFS(puzzle)
+    dfs.search()
+elif option == "2":
+    # TODO: Put BFS here
+    None
+elif option == "3":
+    # TODO: Put A* here
+    None
+else:
+    raise Exception("Invalid option. Option must be (1,2,3)")
 
-# print('\nPossible moves: \n' + str(puzzle.get_possible_moves()))
-
-dfs = DFS(puzzle)
-dfs.search()
-
-# dfs.puzzle.print()
 
 

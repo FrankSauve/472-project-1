@@ -1,11 +1,13 @@
 goal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]
+first_step = True
+
+
 class Puzzle:
 
     def __init__(self, p):
         # Creates empty 4x3 2D array
         self.puzzle = p
         self.goal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]  # Goal state of the puzzle
-
 
     @staticmethod
     def is_puzzle_solved(puzzle):
@@ -14,10 +16,7 @@ class Puzzle:
         :return boolean
         """
         global goal
-        if puzzle == goal:
-            return True
-        else:
-            return False
+        return puzzle == goal
 
     @staticmethod
     def write_to_txt(file, letter, puzzle):
@@ -27,6 +26,10 @@ class Puzzle:
         :param str letter: The letter of the tile of the current move
         :param list puzzle: The current state of the puzzle after the move
         """
+        global first_step
+        if first_step:
+            letter = "0"
+            first_step = False
         file.write(letter + " " + str(puzzle) + "\n")
 
     @staticmethod
@@ -34,6 +37,7 @@ class Puzzle:
         """
         Returns (x,y) coordinates of possible positions for the 0 tile.
         Ordered clockwise as the requirements state they should be
+        :param list puzzle: The current state of the puzzle
         :return list moves: The list of possible moves as (x,y) coordinates
         """
         pos = puzzle.index(0)
@@ -53,17 +57,17 @@ class Puzzle:
             moves.append(pos + 3)
         if pos % 4 != 0:  # left
             moves.append(pos - 1)
-        if (pos >= 5 and pos <= 7) or (pos >= 9 and pos <= 11):
+        if (pos >= 5 and pos <= 7) or (pos >= 9 and pos <= 11): # up-left
             moves.append(pos - 5)
 
         return moves
 
     @staticmethod
-    def temp_move(new_pos, puzzle):
+    def move(new_pos, puzzle):
         """
-        Returns the puzzle after a potential move
-        :param new_x: New row position of the 0
-        :param new_y: New col position of the 0
+        Returns the puzzle after a move
+        :param int new_pos: New position of the 0
+        :param list puzzle: Current state of the puzzle
         :return list new_puzzle: 2D array of the puzzle after the move
         """
         new_puzzle = list(puzzle)
@@ -77,8 +81,7 @@ class Puzzle:
     def get_tile_letter(pos):
         """
         Returns the letter of the tile of the given (x,y) coordinate
-        :param int x : The index of the row
-        :param int y L The index of the col
+        :param int pos : The number of the tile to search
         :return str letter: The letter of tile at (x,y)
         """
         letter = ""
@@ -108,6 +111,6 @@ class Puzzle:
             letter = "l"
 
         if letter == "":
-            raise Exception("Invalid (x,y) coordinates.")
+            raise Exception("Invalid position.")
 
         return letter

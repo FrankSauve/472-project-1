@@ -3,6 +3,7 @@ from Puzzle import Puzzle
 
 dfs_output = open(os.path.dirname(__file__) + "/output/puzzleDFS.txt", "w+")
 
+
 class DFS:
 
     def __init__(self, p):
@@ -10,54 +11,42 @@ class DFS:
         self.closed = []
 
     def search(self):
+        """
+        Performs a dept first search on the puzzle
+        :return: Nothing
+        """
         # While open is not empty
-        # while len(self.open) != 0:
-        i = 0
-        while i < 15:
+        while len(self.open) != 0:
             # Remove leftmost state from open
-            a = self.open[0]
-            self.open.remove(a)
-            self.closed.append(a)
+            current_puzzle = self.open[0]
+            self.open.remove(current_puzzle)
+            self.closed.append(current_puzzle)
 
-            print(a)
-            if not Puzzle.is_puzzle_solved(a):
+            print("Puzzle: " + str(current_puzzle))
+            if not Puzzle.is_puzzle_solved(current_puzzle):
                 # Generate children of a
-                possible_moves = Puzzle.get_possible_moves(a)
-                print("Closed before: " + str(self.closed))
-
+                possible_moves = Puzzle.get_possible_moves(current_puzzle)
                 children = []
                 for move in possible_moves:
-                    child = Puzzle.temp_move(move, a)
-                    children.append(list(child))
+                    child = Puzzle.move(move, current_puzzle)
+                    children.append(child)
 
-                print("children: " + str(children))
-                # Put a on closed list
+                # Remove child if it is in the open or closed list
+                to_remove = []
+                for child in children:
+                    if child in self.open:
+                        to_remove.append(child)
+                    elif child in self.closed:
+                        to_remove.append(child)
 
-                # Discard children of a if already in open or closed
-
-                for element1 in children:
-                    for o in self.open:
-                        if element1 == o:
-                            children.remove(element1)
-                            break
-
-                for element2 in children:
-                    for c in self.closed:
-                        if element2 == c:
-                            children.remove(element2)
-                            break
-
-
-                print("children after remove" + str(children))
+                for r in to_remove:
+                    children.remove(r)
 
                 # Put remaining children on left end of open
                 self.open = children + self.open
 
-                print("OPEN: " + str(self.open))
-                print("CLOSED: " + str(self.closed))
-                print("\n")
-                i = i + 1
-                pos = a.index(0)
-                Puzzle.write_to_txt(dfs_output, Puzzle.get_tile_letter(pos), a)
+                # Write to txt file
+                pos = current_puzzle.index(0)
+                Puzzle.write_to_txt(dfs_output, Puzzle.get_tile_letter(pos), current_puzzle)
             else:
                 return
