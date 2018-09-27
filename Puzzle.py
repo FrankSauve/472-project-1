@@ -5,12 +5,8 @@ first_step = True
 class Puzzle:
 
     def __init__(self, p):
-        # Creates empty 4x3 2D array
         self.puzzle = p
-        if len(p) == 12:
-            self.goal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]  # Goal state of the puzzle
-        else:
-            self.goal_gen()
+        self.goal_gen()
         if not self.is_puzzle_solvable():
             print("Puzzle is not solvable.\nExiting Program...")
             exit()
@@ -29,7 +25,7 @@ class Puzzle:
 
             j = i + 1
             while j < len(self.puzzle):
-                if current_val > self.puzzle[j]:
+                if (current_val > self.puzzle[j]) and (self.puzzle[j] != 0):
                     right_placements += 1
                 j += 1
 
@@ -46,13 +42,14 @@ class Puzzle:
         Modifies the goal state for non 12-tiled puzzles
         """
 
-        self.goal = []
+        global goal
+        goal = []
         i = 0
         while i < len(self.puzzle):
             if i == len(self.puzzle)-1:
-                self.goal.append(0)
+                goal.append(0)
             else:
-                self.goal.append(i + 1)
+                goal.append(i + 1)
             i += 1
 
     # TODO: Make a method to find GCD for a given non 12 puzzle to get NxM measurements
@@ -132,33 +129,4 @@ class Puzzle:
         :param int pos : The number of the tile to search
         :return str letter: The letter of tile at (x,y)
         """
-        letter = ""
-        if pos == 0:
-            letter = "a"
-        if pos == 1:
-            letter = "b"
-        if pos == 2:
-            letter = "c"
-        if pos == 3:
-            letter = "d"
-        if pos == 4:
-            letter = "e"
-        if pos == 5:
-            letter = "f"
-        if pos == 6:
-            letter = "g"
-        if pos == 7:
-            letter = "h"
-        if pos == 8:
-            letter = "i"
-        if pos == 9:
-            letter = "j"
-        if pos == 10:
-            letter = "k"
-        if pos == 11:
-            letter = "l"
-
-        if letter == "":
-            raise Exception("Invalid position.")
-
-        return letter
+        return str(chr(97+pos))
