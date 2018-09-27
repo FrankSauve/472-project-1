@@ -7,7 +7,55 @@ class Puzzle:
     def __init__(self, p):
         # Creates empty 4x3 2D array
         self.puzzle = p
-        self.goal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]  # Goal state of the puzzle
+        if len(p) == 12:
+            self.goal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]  # Goal state of the puzzle
+        else:
+            self.goal_gen()
+        if not self.is_puzzle_solvable():
+            print("Puzzle is not solvable.\nExiting Program...")
+            exit()
+
+    def is_puzzle_solvable(self):
+        """
+        Checks the puzzle to see whether it is solvable using the sum of permutation inversions method
+        :return: boolean
+        """
+        permutation_inversions = []
+
+        i = 0
+        while i < len(self.puzzle):
+            current_val = self.puzzle[i];
+            right_placements = 0
+
+            j = i + 1
+            while j < len(self.puzzle):
+                if current_val > self.puzzle[j]:
+                    right_placements += 1
+                j += 1
+
+            i += 1
+            permutation_inversions.append(right_placements)
+
+        if sum(permutation_inversions) % 2 == 0:
+            return True
+        else:
+            return False
+
+    def goal_gen(self):
+        """
+        Modifies the goal state for non 12-tiled puzzles
+        """
+
+        self.goal = []
+        i = 0
+        while i < len(self.puzzle):
+            if i == len(self.puzzle)-1:
+                self.goal.append(0)
+            else:
+                self.goal.append(i + 1)
+            i += 1
+
+    # TODO: Make a method to find GCD for a given non 12 puzzle to get NxM measurements
 
     @staticmethod
     def is_puzzle_solved(puzzle):
@@ -33,7 +81,7 @@ class Puzzle:
         file.write(letter + " " + str(puzzle) + "\n")
 
     @staticmethod
-    def get_possible_moves(puzzle):
+    def get_possible_moves(puzzle):  # TODO: Modify indices to be non 12-tile based
         """
         Returns (x,y) coordinates of possible positions for the 0 tile.
         Ordered clockwise as the requirements state they should be
