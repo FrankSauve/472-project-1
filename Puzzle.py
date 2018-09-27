@@ -1,3 +1,5 @@
+import math
+
 goal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]
 first_step = True
 
@@ -52,7 +54,30 @@ class Puzzle:
                 goal.append(i + 1)
             i += 1
 
-    # TODO: Make a method to find GCD for a given non 12 puzzle to get NxM measurements
+    def get_m(self):
+        """
+        This method returns the number of rows in a tile puzzle
+        :param list puzzle: the puzzle's current state
+        :return: int m: the number of rows for the puzzle
+        """
+
+        length = float(len(self.puzzle))
+        n = int(math.sqrt(length))
+        if n ** 2 == int(length):  # check square case
+            return n
+        while n > 0:
+            m = length / n
+            if m.is_integer():
+                return n
+            n -= 1
+
+    def get_n(self):
+        """
+        This method returns the number of columns in a tile puzzle
+        :param list puzzle: the puzzle's current state
+        :return: int n: the number of columns for the puzzle
+        """
+        return int(len(self.puzzle) / self.get_m())
 
     @staticmethod
     def is_puzzle_solved(puzzle):
