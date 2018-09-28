@@ -1,3 +1,5 @@
+import math
+
 goal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]
 first_step = True
 
@@ -5,9 +7,77 @@ first_step = True
 class Puzzle:
 
     def __init__(self, p):
-        # Creates empty 4x3 2D array
         self.puzzle = p
-        self.goal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]  # Goal state of the puzzle
+        self.goal_gen()
+        if not self.is_puzzle_solvable():
+            print("Puzzle is not solvable.\nExiting Program...")
+            exit()
+
+    def is_puzzle_solvable(self):
+        """
+        Checks the puzzle to see whether it is solvable using the sum of permutation inversions method
+        :return: boolean
+        """
+        permutation_inversions = []
+
+        i = 0
+        while i < len(self.puzzle):
+            current_val = self.puzzle[i];
+            right_placements = 0
+
+            j = i + 1
+            while j < len(self.puzzle):
+                if (current_val > self.puzzle[j]) and (self.puzzle[j] != 0):
+                    right_placements += 1
+                j += 1
+
+            i += 1
+            permutation_inversions.append(right_placements)
+
+        if sum(permutation_inversions) % 2 == 0:
+            return True
+        else:
+            return False
+
+    def goal_gen(self):
+        """
+        Modifies the goal state for non 12-tiled puzzles
+        """
+
+        global goal
+        goal = []
+        i = 0
+        while i < len(self.puzzle):
+            if i == len(self.puzzle)-1:
+                goal.append(0)
+            else:
+                goal.append(i + 1)
+            i += 1
+
+    def get_m(self):
+        """
+        This method returns the number of rows in a tile puzzle
+        :param list puzzle: the puzzle's current state
+        :return: int m: the number of rows for the puzzle
+        """
+
+        length = float(len(self.puzzle))
+        n = int(math.sqrt(length))
+        if n ** 2 == int(length):  # check square case
+            return n
+        while n > 0:
+            m = length / n
+            if m.is_integer():
+                return n
+            n -= 1
+
+    def get_n(self):
+        """
+        This method returns the number of columns in a tile puzzle
+        :param list puzzle: the puzzle's current state
+        :return: int n: the number of columns for the puzzle
+        """
+        return int(len(self.puzzle) / self.get_m())
 
     @staticmethod
     def is_puzzle_solved(puzzle):
@@ -33,7 +103,7 @@ class Puzzle:
         file.write(letter + " " + str(puzzle) + "\n")
 
     @staticmethod
-    def get_possible_moves(puzzle):
+    def get_possible_moves(puzzle):  # TODO: Modify indices to be non 12-tile based
         """
         Returns (x,y) coordinates of possible positions for the 0 tile.
         Ordered clockwise as the requirements state they should be
@@ -84,33 +154,4 @@ class Puzzle:
         :param int pos : The number of the tile to search
         :return str letter: The letter of tile at (x,y)
         """
-        letter = ""
-        if pos == 0:
-            letter = "a"
-        if pos == 1:
-            letter = "b"
-        if pos == 2:
-            letter = "c"
-        if pos == 3:
-            letter = "d"
-        if pos == 4:
-            letter = "e"
-        if pos == 5:
-            letter = "f"
-        if pos == 6:
-            letter = "g"
-        if pos == 7:
-            letter = "h"
-        if pos == 8:
-            letter = "i"
-        if pos == 9:
-            letter = "j"
-        if pos == 10:
-            letter = "k"
-        if pos == 11:
-            letter = "l"
-
-        if letter == "":
-            raise Exception("Invalid position.")
-
-        return letter
+        return str(chr(97+pos))

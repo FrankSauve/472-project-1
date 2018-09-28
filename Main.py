@@ -16,13 +16,14 @@ option = input("Which algorithm do you ant to use? (1,2,3)\n1. DFS \n2. BFS \n3.
 input_puzzle = list(map(int, input_puzzle))
 
 # Check if the input_puzzle is of length 12
-if len(input_puzzle) != 12:
-    raise Exception("Puzzle must have 12 tiles")
+# if len(input_puzzle) != 12:
+    # raise Exception("Puzzle must have 12 tiles")
 
 puzzle = Puzzle(input_puzzle)
 
 if option == "1":
     dfs = DFS(puzzle)
+    print("N = " + str(puzzle.get_n()) + ", M = " + str(puzzle.get_m()))
     dfs.search()
 elif option == "2":
     # TODO: Put BFS here
