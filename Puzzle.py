@@ -1,6 +1,8 @@
 import math
 
 goal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0]
+rows = 0
+columns = 0
 first_step = True
 
 
@@ -8,10 +10,24 @@ class Puzzle:
 
     def __init__(self, p):
         self.puzzle = p
+        if len(self.puzzle) < 2:
+            print("Invalid puzzle size: Puzzles must be at least two tiles large.\nExiting Program...")
+            exit()
         self.goal_gen()
         if not self.is_puzzle_solvable():
-            print("Puzzle is not solvable.\nExiting Program...")
-            exit()
+            option = input("This puzzle may not be solvable, do you want to continue? (Y/N)\n")
+            if option == 'N' or option == 'n':
+                print("Exiting Program...")
+                exit()
+        print("\nExecuting search...\n\n")
+        self.set_rows_and_columns()
+
+    def set_rows_and_columns(self):
+        global rows
+        global columns
+
+        columns = self.get_n()
+        rows = self.get_m()
 
     def is_puzzle_solvable(self):
         """
@@ -103,32 +119,32 @@ class Puzzle:
         file.write(letter + " " + str(puzzle) + "\n")
 
     @staticmethod
-    def get_possible_moves(puzzle):  # TODO: Modify indices to be non 12-tile based
+    def get_possible_moves(puzzle):
         """
         Returns (x,y) coordinates of possible positions for the 0 tile.
         Ordered clockwise as the requirements state they should be
         :param list puzzle: The current state of the puzzle
         :return list moves: The list of possible moves as (x,y) coordinates
         """
-        pos = puzzle.index(0)
+        pos = puzzle.index(0)  # TODO: Check to make sure columns >1
         moves = []
 
-        if pos >= 4:  # up
-            moves.append(pos - 4)
-        if (pos >= 4 and pos <= 6) or (pos >= 8 and pos <= 10):  # up-right
-            moves.append(pos - 3)
-        if pos % 4 != 3:  # right
+        if pos >= columns:  # up
+            moves.append(pos - columns)
+        if pos >= columns and pos % columns != (columns - 1):  # up-right
+            moves.append(pos - (columns - 1))
+        if pos % columns != (columns - 1):  # right
             moves.append(pos + 1)
-        if (pos >= 0 and pos <= 2) or (pos >= 4 and pos <= 6):  # down-right
-            moves.append(pos + 5)
-        if pos <= 7:  # down
-            moves.append(pos + 4)
-        if (pos >= 1 and pos <= 3) or (pos >= 5 and pos <= 7):  # down-left
-            moves.append(pos + 3)
-        if pos % 4 != 0:  # left
+        if (len(puzzle) > pos + columns + 1) and (pos % columns != (columns - 1)):  # down-right
+            moves.append(pos + (columns + 1))
+        if pos < len(puzzle) - columns:  # down
+            moves.append(pos + columns)
+        if (pos < len(puzzle) - columns) and (pos % columns > 0):  # down-left
+            moves.append(pos + (columns - 1))
+        if pos % columns > 0:  # left
             moves.append(pos - 1)
-        if (pos >= 5 and pos <= 7) or (pos >= 9 and pos <= 11): # up-left
-            moves.append(pos - 5)
+        if (pos >= columns) and (pos % columns > 0):  # up-left
+            moves.append(pos - (columns + 1))
 
         return moves
 
