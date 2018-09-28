@@ -8,9 +8,10 @@ a_star_h2_output = open(os.path.dirname(__file__) + "/output/puzzleAs-h2.txt", "
 
 # Asks the user for the initial puzzle TODO: Commented to make testing faster
 # input_puzzle = input("Enter the board separated by commas: ").replace(" ", "").split(",")
-input_puzzle = "5,1,2,3,9,6,7,4,0,10,11,8".split(",")  # TODO: Remove for release
+# input_puzzle = "5,1,2,3,9,6,7,4,0,10,11,8".split(",")  # TODO: Remove for release
+input_puzzle = "1,0,3,7,5,2,6,4,9,10,11,8".split(",")
 
-option = input("Which algorithm do you ant to use? (1,2,3)\n1. DFS \n2. BFS \n3. A*\n")
+option = input("Which algorithm do you want to use? (1,2,3)\n1. DFS \n2. BFS \n3. A*\n")
 
 # Converts to int
 input_puzzle = list(map(int, input_puzzle))
@@ -23,7 +24,6 @@ puzzle = Puzzle(input_puzzle)
 
 if option == "1":
     dfs = DFS(puzzle)
-    print("N = " + str(puzzle.get_n()) + ", M = " + str(puzzle.get_m()))
     dfs.search()
 elif option == "2":
     # TODO: Put BFS here
