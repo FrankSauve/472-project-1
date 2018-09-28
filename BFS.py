@@ -32,8 +32,8 @@ class BFS:
         i = 0
         h1_scores = []
         while i < len(moves):
-            tempPuzzle = Puzzle.temp_move(moves[i], self.currentPuzzle)
-            h1_scores.append(self.get_h1(tempPuzzle))
+            temp_puzzle = Puzzle.temp_move(moves[i], self.currentPuzzle)
+            h1_scores.append(self.get_h1(temp_puzzle))
             i = i + 1
 
         return h1_scores

@@ -2,7 +2,7 @@ import os
 from Puzzle import Puzzle
 from DFS import DFS
 
-# Output files TODO: These paths will go in the respecting classes
+# Output files TODO: These paths will go in the respective classes
 a_star_h1_output = open(os.path.dirname(__file__) + "/output/puzzleAs-h1.txt", "w+")
 a_star_h2_output = open(os.path.dirname(__file__) + "/output/puzzleAs-h2.txt", "w+")
 
@@ -16,11 +16,19 @@ option = input("Which algorithm do you want to use? (1,2,3)\n1. DFS \n2. BFS \n3
 # Converts to int
 input_puzzle = list(map(int, input_puzzle))
 
-# Check if the input_puzzle is of length 12
-# if len(input_puzzle) != 12:
-    # raise Exception("Puzzle must have 12 tiles")
-
 puzzle = Puzzle(input_puzzle)
+
+if len(puzzle.puzzle) < 2:
+    raise Exception("Invalid puzzle size: Puzzles must be at least two tiles large.\nExiting Program...")
+puzzle.goal_gen()
+if not puzzle.is_puzzle_solvable():
+    option_continue = input("This puzzle may not be solvable, do you want to continue? (Y/N)\n")
+    if option_continue == 'N' or option_continue == 'n':
+        print("Exiting Program...")
+        exit()
+print("\nExecuting search...\n\n")
+
+puzzle.set_rows_and_columns()
 
 if option == "1":
     dfs = DFS(puzzle)

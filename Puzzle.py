@@ -10,17 +10,6 @@ class Puzzle:
 
     def __init__(self, p):
         self.puzzle = p
-        if len(self.puzzle) < 2:
-            print("Invalid puzzle size: Puzzles must be at least two tiles large.\nExiting Program...")
-            exit()
-        self.goal_gen()
-        if not self.is_puzzle_solvable():
-            option = input("This puzzle may not be solvable, do you want to continue? (Y/N)\n")
-            if option == 'N' or option == 'n':
-                print("Exiting Program...")
-                exit()
-        print("\nExecuting search...\n\n")
-        self.set_rows_and_columns()
 
     def set_rows_and_columns(self):
         """
@@ -41,7 +30,7 @@ class Puzzle:
 
         i = 0
         while i < len(self.puzzle):
-            current_val = self.puzzle[i];
+            current_val = self.puzzle[i]
             right_placements = 0
 
             j = i + 1
@@ -169,8 +158,8 @@ class Puzzle:
     @staticmethod
     def get_tile_letter(pos):
         """
-        Returns the letter of the tile of the given (x,y) coordinate
+        Returns the letter of the tile of the given pos
         :param int pos : The number of the tile to search
-        :return str letter: The letter of tile at (x,y)
+        :return str letter: The letter of tile at pos
         """
         return str(chr(97+pos))
