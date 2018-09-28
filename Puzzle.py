@@ -126,7 +126,7 @@ class Puzzle:
         :param list puzzle: The current state of the puzzle
         :return list moves: The list of possible moves as (x,y) coordinates
         """
-        pos = puzzle.index(0)  # TODO: Check to make sure columns >1
+        pos = puzzle.index(0)
         moves = []
 
         if pos >= columns:  # up
