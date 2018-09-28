@@ -23,6 +23,9 @@ class Puzzle:
         self.set_rows_and_columns()
 
     def set_rows_and_columns(self):
+        """
+        Assigns the number of rows and columns that the puzzle should have given its length into the rows and columns global variables
+        """
         global rows
         global columns
 
