@@ -1,6 +1,7 @@
 import os
 from Puzzle import Puzzle
 from DFS import DFS
+from BFS import BFS
 
 # Output files TODO: These paths will go in the respective classes
 a_star_h1_output = open(os.path.dirname(__file__) + "/output/puzzleAs-h1.txt", "w+")
@@ -10,6 +11,7 @@ a_star_h2_output = open(os.path.dirname(__file__) + "/output/puzzleAs-h2.txt", "
 # input_puzzle = input("Enter the board separated by commas: ").replace(" ", "").split(",")
 # input_puzzle = "5,1,2,3,9,6,7,4,0,10,11,8".split(",")  # TODO: Remove for release
 input_puzzle = "1,0,3,7,5,2,6,4,9,10,11,8".split(",")
+# input_puzzle = "1,2,3,4,5,6,7,8,9,10,0,11".split(",")
 
 option = input("Which algorithm do you want to use? (1,2,3)\n1. DFS \n2. BFS \n3. A*\n")
 
@@ -35,7 +37,8 @@ if option == "1":
     dfs.search()
 elif option == "2":
     # TODO: Put BFS here
-    None
+    bfs = BFS(puzzle)
+    bfs.get_h2(puzzle.puzzle)
 elif option == "3":
     # TODO: Put A* here
     None

@@ -32,7 +32,7 @@ class BFS:
         i = 0
         h1_scores = []
         while i < len(moves):
-            temp_puzzle = Puzzle.temp_move(moves[i], self.currentPuzzle)
+            temp_puzzle = Puzzle.move(moves[i], self.currentPuzzle)
             h1_scores.append(self.get_h1(temp_puzzle))
             i = i + 1
 
@@ -53,3 +53,24 @@ class BFS:
 
     def search_h2(self):  # TODO: Create a heuristic h2
         return False
+
+    def get_h2(self, puzzle):
+        """
+        Calculates heuristic h2: The sum of the distances of where each tile should be
+        :param list puzzle: Current state of the puzzle
+        :return: int total_distance: Sum of the distances of where the tile should be
+        """
+        total_distance = 0
+        for i, p in enumerate(puzzle):
+            index = i + 1
+            if p == 0:  # If the tile has the zero, it should be at index zero
+                p = 12
+            distance = p - index
+            if distance < 0:  # If the distance is negative, make it positive
+                distance = distance * (-1)
+            total_distance = total_distance + distance
+        return total_distance
+
+
+
+
