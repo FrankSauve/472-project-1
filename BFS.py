@@ -113,7 +113,7 @@ class BFS:
         for i, p in enumerate(puzzle):
             index = i + 1
             if p == 0:  # If the tile has the zero, it should be at index 12
-                p = 12
+                p = len(puzzle)
             distance = p - index
             if distance < 0:  # If the distance is negative, make it positive
                 distance = distance * (-1)
