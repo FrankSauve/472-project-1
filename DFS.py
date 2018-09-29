@@ -22,6 +22,10 @@ class DFS:
             self.open.remove(current_puzzle)
             self.closed.append(current_puzzle)
 
+            # Write to txt file
+            pos = current_puzzle.index(0)
+            Puzzle.write_to_txt(dfs_output, Puzzle.get_tile_letter(pos), current_puzzle)
+
             print("Puzzle: " + str(current_puzzle))
             if not Puzzle.is_puzzle_solved(current_puzzle):
                 # Generate children of a
@@ -45,8 +49,5 @@ class DFS:
                 # Put remaining children on left end of open
                 self.open = children + self.open
 
-                # Write to txt file
-                pos = current_puzzle.index(0)
-                Puzzle.write_to_txt(dfs_output, Puzzle.get_tile_letter(pos), current_puzzle)
             else:
                 return

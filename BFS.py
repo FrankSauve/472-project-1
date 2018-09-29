@@ -8,39 +8,90 @@ bfs_h2_output = open(os.path.dirname(__file__) + "/output/puzzleBFS-h2.txt", "w+
 class BFS:
 
     def __init__(self, p):
-        self.currentPuzzle = p.puzzle
-        self.visited = [self.currentPuzzle]
+        self.current_puzzle = p.puzzle
+        self.open = [self.current_puzzle]
+        self.closed = []
+        self.h_option = input("\nWhich heuristic do you want to use? (1,2)\n1. Number of incorrectly place tiles\n"
+                        "2. Total distance of each tile to where they should be\n")
 
-    def search_h1(self):
+    def search(self):
         """
-        The heuristic h(n) is equivalent to the number of incorrectly placed items (excluding 0)
-        :return:
+        Solves the puzzle using best first search
         """
-        print(self.currentPuzzle)
-        print(len(self.currentPuzzle))
 
-        possible_moves = Puzzle.get_possible_moves(self.currentPuzzle)
-        possible_move_scores = self.check_moves_h1(possible_moves)
-        print("Possible moves: "+str(possible_moves)+", h1(n)'s for moves: "+str(possible_move_scores))
+        while len(self.open) != 0:
+            self.current_puzzle = self.open[0]
+            self.open.remove(self.current_puzzle)
+            self.closed.append(self.current_puzzle)
 
-        # TODO: Actually do the algorithm
+            print("Puzzle: " + str(self.current_puzzle))
 
-        return True
+            # Write to txt file
+            pos = self.current_puzzle.index(0)
+            if self.h_option == "1":
+                txt_output = bfs_h1_output
+            elif self.h_option == "2":
+                txt_output = bfs_h2_output
+            else:
+                raise Exception("Invalid heuristic option.")
+            Puzzle.write_to_txt(txt_output, Puzzle.get_tile_letter(pos), self.current_puzzle)
 
-    def check_moves_h1(self, moves):
+            # If the puzzle is not the in the goal state
+            if not Puzzle.is_puzzle_solved(self.current_puzzle):
 
+                # Get the possible moves sorted from best to worst
+                possible_moves = Puzzle.get_possible_moves(self.current_puzzle)
+                possible_scores = self.get_scores(possible_moves)
+                score_move = self.get_sorted_tuples(possible_moves, possible_scores)
+
+                # Generate the children of current puzzle
+                children = []
+                for sm in score_move:
+                    score, move = sm
+                    child = Puzzle.move(move, self.current_puzzle)
+                    children.append(child)
+
+                # Remove child if it is in the open or closed list
+                to_remove = []
+                for child in children:
+                    if child in self.open:
+                        to_remove.append(child)
+                    elif child in self.closed:
+                        to_remove.append(child)
+
+                for r in to_remove:
+                    children.remove(r)
+
+                # Put remaining children on right end of open because we use a priority queue
+                self.open = self.open + children
+
+            else:
+                return
+
+    def get_scores(self, moves):
+        """
+        Gets the heuristic score of the moves
+        :param list moves: The list of possible moves
+        :return list scores: The list of scores for each move
+        """
         i = 0
-        h1_scores = []
+        scores = []
         while i < len(moves):
-            temp_puzzle = Puzzle.move(moves[i], self.currentPuzzle)
-            h1_scores.append(self.get_h1(temp_puzzle))
+            temp_puzzle = Puzzle.move(moves[i], self.current_puzzle)
+            if self.h_option == "1":
+                scores.append(self.get_h1(temp_puzzle))
+            elif self.h_option == "2":
+                scores.append(self.get_h2(temp_puzzle))
+            else:
+                raise Exception("Invalid heuristic option.")
             i = i + 1
 
-        return h1_scores
+        return scores
 
-    def get_h1(self, puzzle):
+    @staticmethod
+    def get_h1(puzzle):
         """
-        calculates heuristic h1
+        Calculates heuristic h1
         :return: int a, which is the number of incorrectly placed elements
         """
         i = 0
@@ -51,10 +102,8 @@ class BFS:
             i = i + 1
         return a
 
-    def search_h2(self):  # TODO: Create a heuristic h2
-        return False
-
-    def get_h2(self, puzzle):
+    @staticmethod
+    def get_h2(puzzle):
         """
         Calculates heuristic h2: The sum of the distances of where each tile should be
         :param list puzzle: Current state of the puzzle
@@ -71,6 +120,16 @@ class BFS:
             total_distance = total_distance + distance
         return total_distance
 
-
-
-
+    @staticmethod
+    def get_sorted_tuples(moves, scores):
+        """
+        Gets the sorted (score, move) tuples
+        :param list moves: Possible moves
+        :param list scores: Heuristic scores for the moves
+        :return list tuples: Sorted list of (score, move) tuples
+        """
+        tuples = []
+        for i in range(len(moves)):
+            tuples = tuples + [(scores[i], moves[i])]
+        tuples.sort()
+        return tuples
