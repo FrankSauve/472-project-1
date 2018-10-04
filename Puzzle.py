@@ -222,7 +222,7 @@ class Puzzle:
             elif puzzle[i] != (i + 1):  # If a tile doesn't have the value of it's goal state
                 current_location = i
                 current_location_mod = i % columns
-                goal_location = puzzle[i - 1]
+                goal_location = puzzle[i] - 1
                 goal_location_mod = goal_location % columns
                 distance = 0
 
