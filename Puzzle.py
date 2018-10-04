@@ -185,15 +185,72 @@ class Puzzle:
         :param list puzzle: Current state of the puzzle
         :return: int total_distance: Sum of the distances of where the tile should be
         """
+        i = 0
+        distance = 0
         total_distance = 0
-        for i, p in enumerate(puzzle):
-            index = i + 1
-            if p == 0:  # If the tile has the zero, it should be at the last index
-                p = len(puzzle)
-            distance = p - index
-            if distance < 0:  # If the distance is negative, make it positive
-                distance = distance * (-1)
-            total_distance = total_distance + distance
+
+        while i < len(puzzle):
+            if puzzle[i] == 0 and i != len(puzzle) - 1:
+                current_location = i
+                current_location_mod = i % columns
+                goal_location = len(puzzle) - 1
+                goal_location_mod = goal_location % columns
+                distance = 0
+
+                while current_location < goal_location:  # Current location is above the goal location
+                    if current_location_mod < goal_location_mod:  # Current column is left of the goal column
+                        current_location += columns + 1
+                        current_location_mod += 1
+                    elif current_location_mod == goal_location_mod:  # Current column is same as goal column
+                        current_location += columns
+                    else:  # Current column is right of the goal column
+                        current_location += columns - 1
+                        current_location_mod -= 1
+                    distance += 1
+
+                while current_location > goal_location:
+                    if current_location_mod < goal_location_mod:  # Current column is left of the goal column
+                        current_location -= columns + 1
+                        current_location_mod += 1
+                    elif current_location_mod == goal_location_mod:  # Current column is same as goal column
+                        current_location -= columns
+                    else:  # Current column is right of the goal column
+                        current_location -= columns - 1
+                        current_location_mod -= 1
+                    distance += 1
+
+            elif puzzle[i] != (i + 1):  # If a tile doesn't have the value of it's goal state
+                current_location = i
+                current_location_mod = i % columns
+                goal_location = puzzle[i - 1]
+                goal_location_mod = goal_location % columns
+                distance = 0
+
+                while current_location < goal_location:  # Current location is above the goal location
+                    if current_location_mod < goal_location_mod:  # Current column is left of the goal column
+                        current_location += columns + 1
+                        current_location_mod += 1
+                    elif current_location_mod == goal_location_mod:  # Current column is same as goal column
+                        current_location += columns
+                    else:  # Current column is right of the goal column
+                        current_location += columns - 1
+                        current_location_mod -= 1
+                    distance += 1
+
+                while current_location > goal_location:
+                    if current_location_mod < goal_location_mod:  # Current column is left of the goal column
+                        current_location -= columns + 1
+                        current_location_mod += 1
+                    elif current_location_mod == goal_location_mod:  # Current column is same as goal column
+                        current_location -= columns
+                    else:  # Current column is right of the goal column
+                        current_location -= columns - 1
+                        current_location_mod -= 1
+                    distance += 1
+
+            total_distance += distance
+            distance = 0
+            i = i + 1
         return total_distance
 
     @staticmethod
