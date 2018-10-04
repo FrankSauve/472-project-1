@@ -190,45 +190,16 @@ class Puzzle:
         total_distance = 0
 
         while i < len(puzzle):
-            if puzzle[i] == 0 and i != len(puzzle) - 1:
+
+            if puzzle[i] != (i + 1):  # If a tile doesn't have the value of it's goal state
                 current_location = i
                 current_location_mod = i % columns
-                goal_location = len(puzzle) - 1
-                goal_location_mod = goal_location % columns
-                distance = 0
-
-                while current_location < goal_location:  # Current location is above the goal location
-                    if current_location_mod < goal_location_mod and goal_location - columns > current_location:  # x+c+1
-                        current_location += columns + 1
-                        current_location_mod += 1
-                    elif current_location_mod < goal_location_mod:  # x+1
-                        current_location += 1
-                        current_location_mod += 1
-                    elif current_location_mod == goal_location_mod:  # x+c
-                        current_location += columns
-                    else:  # x+c-1
-                        current_location += columns - 1
-                        current_location_mod -= 1
-                    distance += 1
-
-                while current_location > goal_location:
-                    if current_location_mod < goal_location_mod:  # x-c+1
-                        current_location -= columns - 1
-                        current_location_mod += 1
-                    elif current_location_mod == goal_location_mod:  # Current column is same as goal column
-                        current_location -= columns
-                    elif current_location_mod > goal_location_mod and goal_location + columns > current_location:  # x-1
-                        current_location -= 1
-                        current_location_mod -= 1
-                    else:  # x-c-1
-                        current_location -= columns + 1
-                        current_location_mod -= 1
-
-            elif puzzle[i] != (i + 1):  # If a tile doesn't have the value of it's goal state
-                current_location = i
-                current_location_mod = i % columns
-                goal_location = puzzle[i] - 1
-                goal_location_mod = goal_location % columns
+                if puzzle[i] == 0 and i != len(puzzle) - 1:  # Check 0 case
+                    goal_location = len(puzzle) - 1
+                    goal_location_mod = goal_location % columns
+                else:
+                    goal_location = puzzle[i] - 1
+                    goal_location_mod = goal_location % columns
                 distance = 0
 
                 while current_location < goal_location:  # Current location is above the goal location
