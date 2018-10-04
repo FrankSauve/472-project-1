@@ -3,6 +3,7 @@ from Puzzle import Puzzle
 
 bfs_h1_output = open(os.path.dirname(__file__) + "/output/puzzleBFS-h1.txt", "w+")
 bfs_h2_output = open(os.path.dirname(__file__) + "/output/puzzleBFS-h2.txt", "w+")
+bfs_h3_output = open(os.path.dirname(__file__) + "/output/puzzleBFS-h3.txt", "w+")
 
 
 class BFS:
@@ -12,7 +13,8 @@ class BFS:
         self.open = [self.current_puzzle]
         self.closed = []
         self.h_option = input("\nWhich heuristic do you want to use? (1,2)\n1. Number of incorrectly place tiles\n"
-                        "2. Total distance of each tile to where they should be\n")
+                        "2. Total distance of each tile to where they should be\n"
+                        "3. Manhattan distance\n")
 
     def search(self):
         """
@@ -32,6 +34,8 @@ class BFS:
                 txt_output = bfs_h1_output
             elif self.h_option == "2":
                 txt_output = bfs_h2_output
+            elif self.h_option == "3":
+                txt_output = bfs_h3_output
             else:
                 raise Exception("Invalid heuristic option.")
             Puzzle.write_to_txt(txt_output, Puzzle.get_tile_letter(pos), self.current_puzzle)
@@ -82,6 +86,8 @@ class BFS:
                 scores.append(Puzzle.get_h1(temp_puzzle))
             elif self.h_option == "2":
                 scores.append(Puzzle.get_h2(temp_puzzle))
+            elif self.h_option == "3":
+                scores.append(Puzzle.get_h3(temp_puzzle))
             else:
                 raise Exception("Invalid heuristic option.")
             i = i + 1
