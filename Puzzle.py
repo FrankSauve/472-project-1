@@ -198,32 +198,31 @@ class Puzzle:
                 distance = 0
 
                 while current_location < goal_location:  # Current location is above the goal location
-                    if current_location_mod < goal_location_mod and goal_location - columns > current_location:  # Current column is up-left of the goal column
+                    if current_location_mod < goal_location_mod and goal_location - columns > current_location:  # x+c+1
                         current_location += columns + 1
                         current_location_mod += 1
-                    elif current_location_mod < goal_location_mod:  # Current column is left of the goal column
+                    elif current_location_mod < goal_location_mod:  # x+1
                         current_location += 1
                         current_location_mod += 1
-                    elif current_location_mod == goal_location_mod:  # Current column is same as goal column
+                    elif current_location_mod == goal_location_mod:  # x+c
                         current_location += columns
-                    else:  # Current column is up-right of the goal column
+                    else:  # x+c-1
                         current_location += columns - 1
                         current_location_mod -= 1
                     distance += 1
 
                 while current_location > goal_location:
-                    if current_location_mod < goal_location_mod and goal_location + columns < current_location:  # Current column is down-left of the goal column
-                        current_location -= columns + 1
-                        current_location_mod -= 1
-                    elif current_location_mod < goal_location_mod:  # Current column is left of the goal column
-                        current_location -= 1
-                        current_location_mod -= 1
+                    if current_location_mod < goal_location_mod:  # x-c+1
+                        current_location -= columns - 1
+                        current_location_mod += 1
                     elif current_location_mod == goal_location_mod:  # Current column is same as goal column
                         current_location -= columns
-                    else:  # Current column is right of the goal column
-                        current_location -= columns - 1
+                    elif current_location_mod > goal_location_mod and goal_location + columns > current_location:  # x-1
+                        current_location -= 1
                         current_location_mod -= 1
-                    distance += 1
+                    else:  # x-c-1
+                        current_location -= columns + 1
+                        current_location_mod -= 1
 
             elif puzzle[i] != (i + 1):  # If a tile doesn't have the value of it's goal state
                 current_location = i
@@ -233,30 +232,30 @@ class Puzzle:
                 distance = 0
 
                 while current_location < goal_location:  # Current location is above the goal location
-                    if current_location_mod < goal_location_mod and goal_location - columns > current_location:  # Current column is up-left of the goal column
-                        current_location += columns + 1
-                        current_location_mod += 1
-                    elif current_location_mod < goal_location_mod:  # Current column is left of the goal column
+                    if current_location_mod < goal_location_mod and goal_location - columns < current_location:  # x+1
                         current_location += 1
                         current_location_mod += 1
-                    elif current_location_mod == goal_location_mod:  # Current column is same as goal column
+                    elif current_location_mod < goal_location_mod:  # x+c+1
+                        current_location += columns + 1
+                        current_location_mod += 1
+                    elif current_location_mod == goal_location_mod:  # x+c
                         current_location += columns
-                    else:  # Current column is up-right of the goal column
+                    else:  # x+c-1
                         current_location += columns - 1
                         current_location_mod -= 1
                     distance += 1
 
                 while current_location > goal_location:
-                    if current_location_mod < goal_location_mod and goal_location + columns < current_location:  # Current column is down-left of the goal column
-                        current_location -= columns + 1
-                        current_location_mod -= 1
-                    elif current_location_mod < goal_location_mod:  # Current column is left of the goal column
-                        current_location -= 1
-                        current_location_mod -= 1
+                    if current_location_mod < goal_location_mod:  # x-c+1
+                        current_location -= columns - 1
+                        current_location_mod += 1
                     elif current_location_mod == goal_location_mod:  # Current column is same as goal column
                         current_location -= columns
-                    else:  # Current column is right of the goal column
-                        current_location -= columns - 1
+                    elif current_location_mod > goal_location_mod and goal_location + columns > current_location:  # x-1
+                        current_location -= 1
+                        current_location_mod -= 1
+                    else:  # x-c-1
+                        current_location -= columns + 1
                         current_location_mod -= 1
                     distance += 1
 
