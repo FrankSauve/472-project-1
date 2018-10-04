@@ -163,3 +163,106 @@ class Puzzle:
         :return str letter: The letter of tile at pos
         """
         return str(chr(97+pos))
+
+    @staticmethod
+    def get_h1(puzzle):
+        """
+        Calculates heuristic h1
+        :return: int a, which is the number of incorrectly placed elements
+        """
+        i = 0
+        a = 0
+        while i < len(puzzle) - 1:  # len()-1 since 0 should be at the last position
+            if puzzle[i] != (i + 1):
+                a = a + 1
+            i = i + 1
+        return a
+
+    @staticmethod
+    def get_h2(puzzle):
+        """
+        Calculates heuristic h2: The sum of the distances of where each tile should be
+        :param list puzzle: Current state of the puzzle
+        :return: int total_distance: Sum of the distances of where the tile should be
+        """
+        i = 0
+        distance = 0
+        total_distance = 0
+
+        while i < len(puzzle):
+            if puzzle[i] == 0 and i != len(puzzle) - 1:
+                current_location = i
+                current_location_mod = i % columns
+                goal_location = len(puzzle) - 1
+                goal_location_mod = goal_location % columns
+                distance = 0
+
+                while current_location < goal_location:  # Current location is above the goal location
+                    if current_location_mod < goal_location_mod:  # Current column is left of the goal column
+                        current_location += columns + 1
+                        current_location_mod += 1
+                    elif current_location_mod == goal_location_mod:  # Current column is same as goal column
+                        current_location += columns
+                    else:  # Current column is right of the goal column
+                        current_location += columns - 1
+                        current_location_mod -= 1
+                    distance += 1
+
+                while current_location > goal_location:
+                    if current_location_mod < goal_location_mod:  # Current column is left of the goal column
+                        current_location -= columns + 1
+                        current_location_mod += 1
+                    elif current_location_mod == goal_location_mod:  # Current column is same as goal column
+                        current_location -= columns
+                    else:  # Current column is right of the goal column
+                        current_location -= columns - 1
+                        current_location_mod -= 1
+                    distance += 1
+
+            elif puzzle[i] != (i + 1):  # If a tile doesn't have the value of it's goal state
+                current_location = i
+                current_location_mod = i % columns
+                goal_location = puzzle[i - 1]
+                goal_location_mod = goal_location % columns
+                distance = 0
+
+                while current_location < goal_location:  # Current location is above the goal location
+                    if current_location_mod < goal_location_mod:  # Current column is left of the goal column
+                        current_location += columns + 1
+                        current_location_mod += 1
+                    elif current_location_mod == goal_location_mod:  # Current column is same as goal column
+                        current_location += columns
+                    else:  # Current column is right of the goal column
+                        current_location += columns - 1
+                        current_location_mod -= 1
+                    distance += 1
+
+                while current_location > goal_location:
+                    if current_location_mod < goal_location_mod:  # Current column is left of the goal column
+                        current_location -= columns + 1
+                        current_location_mod += 1
+                    elif current_location_mod == goal_location_mod:  # Current column is same as goal column
+                        current_location -= columns
+                    else:  # Current column is right of the goal column
+                        current_location -= columns - 1
+                        current_location_mod -= 1
+                    distance += 1
+
+            total_distance += distance
+            distance = 0
+            i = i + 1
+        return total_distance
+
+    @staticmethod
+    def get_sorted_tuples(moves, scores):
+        """
+        Gets the sorted (score, move) tuples
+        :param list moves: Possible moves
+        :param list scores: Heuristic scores for the moves
+        :return list tuples: Sorted list of (score, move) tuples
+        """
+        tuples = []
+        for i in range(len(moves)):
+            tuples = tuples + [(scores[i], moves[i])]
+        tuples.sort()
+        return tuples
