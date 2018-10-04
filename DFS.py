@@ -13,7 +13,6 @@ class DFS:
     def search(self):
         """
         Performs a dept first search on the puzzle
-        :return: Nothing
         """
         # While open is not empty
         while len(self.open) != 0:
