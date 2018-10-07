@@ -2,10 +2,8 @@ import os
 from Puzzle import Puzzle
 from DFS import DFS
 from BFS import BFS
+from A_Star import AStar
 
-# Output files TODO: These paths will go in the respective classes
-a_star_h1_output = open(os.path.dirname(__file__) + "/output/puzzleAs-h1.txt", "w+")
-a_star_h2_output = open(os.path.dirname(__file__) + "/output/puzzleAs-h2.txt", "w+")
 
 # Asks the user for the initial puzzle TODO: Commented to make testing faster
 # input_puzzle = input("Enter the board separated by commas: ").replace(" ", "").split(",")
@@ -37,8 +35,8 @@ elif option == "2":
     bfs = BFS(puzzle)
     bfs.search()
 elif option == "3":
-    # TODO: Put A* here
-    None
+    a_star = AStar(puzzle)
+    a_star.search()
 else:
     raise Exception("Invalid option. Option must be (1,2,3)")
 
