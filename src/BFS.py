@@ -1,9 +1,9 @@
 import os
-from Puzzle import Puzzle
+from src.Puzzle import Puzzle
 
-bfs_h1_output = open(os.path.dirname(__file__) + "/output/puzzleBFS-h1.txt", "w+")
-bfs_h2_output = open(os.path.dirname(__file__) + "/output/puzzleBFS-h2.txt", "w+")
-bfs_h3_output = open(os.path.dirname(__file__) + "/output/puzzleBFS-h3.txt", "w+")
+bfs_h1_output = open(os.path.dirname(__file__) + "/../output/puzzleBFS-h1.txt", "w+")
+bfs_h2_output = open(os.path.dirname(__file__) + "/../output/puzzleBFS-h2.txt", "w+")
+bfs_h3_output = open(os.path.dirname(__file__) + "/../output/puzzleBFS-h3.txt", "w+")
 
 
 class BFS:
@@ -12,7 +12,7 @@ class BFS:
         self.current_puzzle = p.puzzle
         self.open = [self.current_puzzle]
         self.closed = []
-        self.h_option = input("\nWhich heuristic do you want to use? (1,2)\n1. Number of incorrectly place tiles\n"
+        self.h_option = input("\nWhich heuristic do you want to use? (1,2,3)\n1. Number of incorrectly place tiles\n"
                         "2. Total distance of each tile to where they should be\n"
                         "3. Manhattan distance\n")
 
@@ -20,7 +20,6 @@ class BFS:
         """
         Performs a best first search on the puzzle
         """
-
         while len(self.open) != 0:
             self.current_puzzle = self.open[0]
             self.open.remove(self.current_puzzle)

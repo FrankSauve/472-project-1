@@ -1,8 +1,7 @@
-import os
-from Puzzle import Puzzle
-from DFS import DFS
-from BFS import BFS
-from A_Star import AStar
+from src.Puzzle import Puzzle
+from src.DFS import DFS
+from src.BFS import BFS
+from src.A_Star import AStar
 
 
 # Asks the user for the initial puzzle TODO: Commented to make testing faster
