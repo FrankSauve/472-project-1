@@ -95,7 +95,7 @@ class AStar:
                             self.open.append(neighbor)
 
                     # Calculate f(n) of neighbor
-                    neighbor.h = Puzzle.get_h3(list(neighbor.puzzle))
+                    neighbor.h = self.get_h(list(neighbor.puzzle))
                     neighbor.f = neighbor.g + neighbor.h
 
             else:
@@ -116,3 +116,20 @@ class AStar:
 
         if to_remove is not None:
             self.open.remove(to_remove)
+
+    def get_h(self, puzzle):
+        """
+        Gets the heuristic score of the moves
+        :param list moves: The list of possible moves
+        :return list scores: The list of scores for each move
+        """
+        if self.h_option == "1":
+            scores = Puzzle.get_h1(puzzle)
+        elif self.h_option == "2":
+            scores = Puzzle.get_h2(puzzle)
+        elif self.h_option == "3":
+            scores = Puzzle.get_h3(puzzle)
+        else:
+            raise Exception("Invalid heuristic option.")
+
+        return scores
