@@ -19,6 +19,8 @@ puzzle = Puzzle(input_puzzle)
 # Check if puzzle is solvable
 if len(puzzle.puzzle) < 2:
     raise Exception("Invalid puzzle size: Puzzles must be at least two tiles large.\nExiting Program...")
+if not puzzle.is_tiled_correctly():
+    raise Exception("Incorrect tile values were provided. \nExiting Program...")
 puzzle.goal_gen()
 if not puzzle.is_puzzle_solvable():
     option_continue = input("This puzzle may not be solvable, do you want to continue? (Y/N)\n")

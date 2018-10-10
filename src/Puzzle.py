@@ -18,8 +18,30 @@ class Puzzle:
         global rows
         global columns
 
-        columns = self.get_n()
-        rows = self.get_m()
+        columns = self.get_columns()
+        rows = self.get_rows()
+
+    def is_tiled_correctly(self):
+        """
+        Checks if the puzzle has any duplicated or missing tile numbers
+        :return: boolean
+        """
+        i = len(self.puzzle) - 1  # int value expected in tile puzzle
+        while i >= 0:
+            j = 0  # int iterating through each list item
+            found = False
+            while j < len(self.puzzle):
+                if (self.puzzle[j] == i) and (not found):  # initial match found
+                    found = True
+                elif self.puzzle[j] == i:  # duplicate found
+                    print("Duplicate " + str(i) + " found")
+                    return False
+                elif (not found) and (j == len(self.puzzle) - 1) and (self.puzzle[j] != i):  # value expected not found
+                    print("Tile " + str(i) + " expected, but not found")
+                    return False
+                j += 1
+            i -= 1
+        return True
 
     def is_puzzle_solvable(self):
         """
@@ -56,17 +78,17 @@ class Puzzle:
         goal = []
         i = 0
         while i < len(self.puzzle):
-            if i == len(self.puzzle)-1:
+            if i == len(self.puzzle) - 1:
                 goal.append(0)
             else:
                 goal.append(i + 1)
             i += 1
 
-    def get_m(self):
+    def get_rows(self):
         """
         This method returns the number of rows in a tile puzzle
         :param list puzzle: the puzzle's current state
-        :return: int m: the number of rows for the puzzle
+        :return: int rows: the number of rows for the puzzle
         """
 
         length = float(len(self.puzzle))
@@ -79,13 +101,13 @@ class Puzzle:
                 return n
             n -= 1
 
-    def get_n(self):
+    def get_columns(self):
         """
         This method returns the number of columns in a tile puzzle
         :param list puzzle: the puzzle's current state
-        :return: int n: the number of columns for the puzzle
+        :return: int columns: the number of columns for the puzzle
         """
-        return int(len(self.puzzle) / self.get_m())
+        return int(len(self.puzzle) / self.get_rows())
 
     @staticmethod
     def is_puzzle_solved(puzzle):
@@ -162,7 +184,7 @@ class Puzzle:
         :param int pos : The number of the tile to search
         :return str letter: The letter of tile at pos
         """
-        return str(chr(97+pos))
+        return str(chr(97 + pos))
 
     @staticmethod
     def get_h1(puzzle):
