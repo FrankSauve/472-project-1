@@ -14,9 +14,10 @@ class AStar:
         self.current_spot = Spot(self.current_puzzle)
         self.open = [self.current_spot]
         self.closed = []
-        self.h_option = input("\nWhich heuristic do you want to use? (1,2,3)\n1. Number of incorrectly place tiles\n"
-                        "2. Total distance of each tile to where they should be\n"
-                        "3. Manhattan distance\n")
+        self.h_option = input("\nWhich heuristic do you want to use? (1,2,3)\n"
+                              "1. Hamming Distance (Number of incorrectly place tiles)\n"
+                              "2. Standard Manhattan distance\n"
+                              "3. Modified Manhattan distance\n")
 
     def search(self):
         """

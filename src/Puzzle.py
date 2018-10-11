@@ -203,7 +203,41 @@ class Puzzle:
     @staticmethod
     def get_h2(puzzle):
         """
-        Calculates heuristic h2: The sum of the distances of where each tile should be
+        Calculates heuristic h2: The Manhattan distance of each tile
+        :param list puzzle: Current state of the puzzle
+        :return: int total_distance: Sum of the distances of where the tile should be
+        """
+        total_distance = 0
+        for i, p in enumerate(puzzle):
+            index = i + 1
+            if p == 0:  # If the tile has the zero, it should be at index n
+                p = len(puzzle)
+
+            # Current x of the tile
+            curr_x = index % columns
+            if curr_x == 0:  # If its 0 make it column
+                curr_x = columns
+
+            # Current y of the tile
+            curr_y = math.ceil(index / columns)
+
+            # Goal x position of tile
+            goal_x = p % columns
+            if goal_x == 0:  # If its 0 make it column
+                goal_x = columns
+
+            # Goal y position of tile
+            goal_y = math.ceil(p / columns)
+
+            # Total absolute Manhattan distance
+            total_distance += abs(goal_x - curr_x) + abs(goal_y - curr_y)
+
+        return total_distance
+
+    @staticmethod
+    def get_h3(puzzle):
+        """
+        Calculates heuristic h3: The sum of the distances of where each tile should be
         :param list puzzle: Current state of the puzzle
         :return: int total_distance: Sum of the distances of where the tile should be
         """
@@ -255,40 +289,6 @@ class Puzzle:
             total_distance += distance
             distance = 0
             i = i + 1
-        return total_distance
-
-    @staticmethod
-    def get_h3(puzzle):
-        """
-        Calculates heuristic h2: The Manhattan distance of each tile
-        :param list puzzle: Current state of the puzzle
-        :return: int total_distance: Sum of the distances of where the tile should be
-        """
-        total_distance = 0
-        for i, p in enumerate(puzzle):
-            index = i + 1
-            if p == 0:  # If the tile has the zero, it should be at index n
-                p = len(puzzle)
-
-            # Current x of the tile
-            curr_x = index % columns
-            if curr_x == 0:  # If its 0 make it column
-                curr_x = columns
-
-            # Current y of the tile
-            curr_y = math.ceil(index / columns)
-
-            # Goal x position of tile
-            goal_x = p % columns
-            if goal_x == 0:  # If its 0 make it column
-                goal_x = columns
-
-            # Goal y position of tile
-            goal_y = math.ceil(p / columns)
-
-            # Total absolute Manhattan distance
-            total_distance += abs(goal_x - curr_x) + abs(goal_y - curr_y)
-
         return total_distance
 
     @staticmethod
