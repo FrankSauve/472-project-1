@@ -1,13 +1,11 @@
-from src.Puzzle import Puzzle
-from src.DFS import DFS
-from src.BFS import BFS
-from src.A_Star import AStar
+from Puzzle import Puzzle
+from DFS import DFS
+from BFS import BFS
+from A_Star import AStar
 
 
-# Asks the user for the initial puzzle TODO: Commented to make testing faster
-# input_puzzle = input("Enter the board separated by commas: ").replace(" ", "").split(",")
-# input_puzzle = "5,1,2,3,9,6,7,4,0,10,11,8".split(",")  # TODO: Remove for release
-input_puzzle = "1,0,3,7,5,2,6,4,9,10,11,8".split(",")
+# Asks the user for the initial puzzle
+input_puzzle = input("Enter the board separated by commas: ").replace(" ", "").split(",")
 
 option = input("Which algorithm do you want to use? (1,2,3)\n1. DFS \n2. BFS \n3. A*\n")
 
