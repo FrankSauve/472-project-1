@@ -1,6 +1,6 @@
 import os
-from src.Spot import Spot
-from src.Puzzle import Puzzle
+from Spot import Spot
+from Puzzle import Puzzle
 
 a_star_h1_output = open(os.path.dirname(__file__) + "/../output/puzzleAs-h1.txt", "w+")
 a_star_h2_output = open(os.path.dirname(__file__) + "/../output/puzzleAs-h2.txt", "w+")
