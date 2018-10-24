@@ -1,5 +1,5 @@
 import os
-from src.Puzzle import Puzzle
+from Puzzle import Puzzle
 
 dfs_output = open(os.path.dirname(__file__) + "/../output/puzzleDFS.txt", "w+")
 
