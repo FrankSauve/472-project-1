@@ -1,6 +1,6 @@
 import os
-from src.Puzzle import Puzzle
-from src.Spot import Spot
+from Puzzle import Puzzle
+from Spot import Spot
 
 bfs_h1_output = open(os.path.dirname(__file__) + "/../output/puzzleBFS-h1.txt", "w+")
 bfs_h2_output = open(os.path.dirname(__file__) + "/../output/puzzleBFS-h2.txt", "w+")
